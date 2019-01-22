@@ -64,11 +64,7 @@ create table zharbor.sellerFee (
     );
 
 
-insert into zharbor.buyer values (1, "tom");
-insert into zharbor.buyer values (2, "tom");
-insert into zharbor.buyer values (3, "tom");
-insert into zharbor.buyer values (4, "tom");
-insert into zharbor.buyer values (5, "tom");
-insert into zharbor.buyer values (7, "tom");
+insert into zharbor.buyer (id, buyerName) values (1, 'tom');
+
 
     commit;

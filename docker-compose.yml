@@ -7,12 +7,16 @@ services:
       context: .
       dockerfile: ./try2/try2/Dockerfile
     depends_on:
-      - 'postgres'
+      - 'mydb'
     networks: 
       - superCoolNet
-  postgres:
-    container_name: postgres
-    image: postgres
+    ports:
+      - "5000:5000"
+  mydb:
+    container_name: db
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: plz
     volumes:
       - "./tables.sql:/docker-entrypoint-initdb.d/tables.sql"
     networks: 
@@ -24,4 +28,3 @@ networks:
     driver: bridge
 
 
-# new change
