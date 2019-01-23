@@ -1,22 +1,26 @@
 version: '3'
 
 services:
+
   web:
     container_name: docSite
     build:
       context: .
-      dockerfile: ./try2/try2/Dockerfile
+      dockerfile: ./Dockerfile
     depends_on:
-      - 'mydb'
+      - 'postgres'
     networks: 
       - superCoolNet
     ports:
-      - "5000:5000"
-  mydb:
-    container_name: db
-    image: mysql
+      - "80:80"
+
+
+
+  postgres:
+    container_name: 'postgres'
+    image: postgres
     environment:
-      MYSQL_ROOT_PASSWORD: plz
+      POSTGRES_PASSWORD: password
     volumes:
       - "./tables.sql:/docker-entrypoint-initdb.d/tables.sql"
     networks: 
