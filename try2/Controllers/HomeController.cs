@@ -7,40 +7,30 @@ using Microsoft.AspNetCore.Mvc;
 using try2.ViewModel;
 using Npgsql;
 using System.Data;
+using try2.Services;
 
 namespace try2.Controllers
 {
     public class HomeController : Controller
     {
-        
 
+        private int num = 45;
 
-        public IActionResult About()
+        public IActionResult Insert()
         {
             try
             {
-                using (var conn = new NpgsqlConnection("Server=144.17.24.208;Port=5432;Database=postgres;User Id=postgres;"))
+                using (var conn = new Connection().getDb())
                 {
                     conn.Open();
                     using (var cmd = new NpgsqlCommand())
                     {
                         cmd.Connection = conn;
-                        cmd.CommandText = "INSERT INTO todo (id, title, iscomplete) VALUES (@id, @title, @iscomplete)";
-                        cmd.Parameters.AddWithValue("id", 1);
-                        cmd.Parameters.AddWithValue("title", "new item");
-                        cmd.Parameters.AddWithValue("iscomplete", false);
+                        cmd.CommandText = "INSERT INTO zharbor.buyer VALUES (@i, 'diego')";
+                        cmd.Parameters.AddWithValue("i", num++);
                         cmd.ExecuteNonQuery();
                     }
-
-                    // Retrieve all rows
-                    using (var cmd = new NpgsqlCommand("SELECT * FROM todo", conn))
-                    {
-                        var adapter = new NpgsqlDataAdapter(cmd);
-                        var todoItems = new DataSet();
-                        adapter.Fill(todoItems);
-                        foreach (DataRow row in todoItems.Tables[0].Rows)
-                            ViewData["Message"] += $"id= {row["id"]}; title={row["title"]}; isComplete={row["iscomplete"]}<br/>";
-                    }
+                    
 
                 }
             }
@@ -49,14 +39,37 @@ namespace try2.Controllers
                 ViewData["Message"] = ex.Message;
             }
 
-            return View();
+            return Index();
         }
 
         //next thing in urll
         public IActionResult Index()
         {
-            var print = new PrintThisPlz();
-            return View(print);
+            var todoItems = new DataSet();
+            try
+            {
+                using (var conn = new Connection().getDb())
+                {
+                    conn.Open();
+                    
+
+                    // Retrieve all rows
+                    using (var cmd = new NpgsqlCommand("SELECT * FROM zharbor.buyer", conn))
+                    {
+                        var adapter = new NpgsqlDataAdapter(cmd);
+                        adapter.Fill(todoItems);
+                        foreach (DataRow row in todoItems.Tables[0].Rows)
+                            ViewData["Message"] += $"id= {row["id"]}<br/>";
+                        
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewData["Message"] = ex.Message;
+            }
+            return View();
         }
 
         

@@ -13,6 +13,8 @@ services:
       - superCoolNet
     ports:
       - "80:80"
+    environment:
+      ConnectionString: "Server=postgresCompose;Port=5432;Database=postgres;User Id=postgres;password=password"
 
 
 

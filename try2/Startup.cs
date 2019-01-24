@@ -10,6 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Npgsql;
+using System.Data.Common;
+using System.Data;
 
 namespace try2
 {
@@ -25,7 +28,7 @@ namespace try2
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            services.AddScoped<IDbConnection, NpgsqlConnection>();
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -43,7 +46,7 @@ namespace try2
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseStaticFiles();
             //app.UseStaticFiles();
             app.UseMvc(ConfigureRoutes);
 

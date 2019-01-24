@@ -1,6 +1,4 @@
-CREATE DATABASE testdb;
-CREATE USER admin WITH PASSWORD 'admin';
-GRANT ALL PRIVILEGES ON DATABASE testdb TO admin;
+
 CREATE SCHEMA zharbor;
 
 create table zharbor.buyer (
